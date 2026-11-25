@@ -1,6 +1,6 @@
 # Phase 3 — Favorite places and app shell
 
-**OpenSpec change:** `phase-3-favorites-app-shell`
+**OpenSpec change:** [`phase-3-favorites-app-shell`](../../openspec/changes/archive/2026-11-25-phase-3-favorites-app-shell/) (archived; requirements now in [`openspec/specs/`](../../openspec/specs/))
 **Capabilities:** `app-shell`, `favorite-places`
 **ADRs:** [0014](../adr/0014-navigation-owned-by-the-composition-root.md), [0015](../adr/0015-ios-static-framework-built-from-xcode.md)
 
@@ -28,21 +28,21 @@ Deliver the first feature end to end inside real Android and iOS apps, proving t
 
 ## Tests added
 
-89 tests on the JVM and 84 on the iOS simulator across all modules.
+90 tests on the JVM and 85 on the iOS simulator across all modules.
 
 | Test | Verifies |
 |---|---|
 | `ObserveFavoritesUseCaseTest` | Case-insensitive order; Ávila, Nazca, Ñuñoa, Oruro, Zaragoza; same names ordered by country |
 | `RefreshFavoritesWeatherUseCaseTest` | Only stale or missing places downloaded; force downloads all; failures returned, not thrown |
 | `FavoritesReducerTest` | Loaded list stops loading; removal hides the row; navigation intents do not change state |
-| `FavoritesViewModelTest` | Loading then sorted list; remove offers undo; undo restores; opening refreshes stale temperatures; failed pull to refresh shows an error; failed background refresh is silent; one refresh at a time; click navigates with the full route |
+| `FavoritesViewModelTest` | Loading then sorted list; remove offers undo; undo restores; opening refreshes stale temperatures; failed pull to refresh shows an error; failed background refresh is silent; one refresh at a time; a pull to refresh during a background refresh runs right after it; click navigates with the full route |
 | `FavoritesScreenTest` | Empty state with one search button and no FAB; FAB with a list; temperature in the selected unit; dash announced as "Temperature not available yet"; row click and removal via the accessibility action |
 | `SnackbarDoesNotBlockTest` | A favorite tapped while the "removed" snackbar is visible opens immediately |
 | `KoinGraphTest` (JVM) | Every definition of `appModules()` resolves |
 | `AppNavigationTest` (JVM) | Real `App()` with a seeded database: favorite → forecast placeholder with that place → Back → favorites; search placeholder with a way back |
 | `CollectEffectsTest` | An effect sent while CREATED is delivered once at STARTED and not again after returning from the background (Phase 1 follow-up) |
 
-The apps were also run by hand: on an Android phone (Android 16) and on the iOS simulator, in Spanish, in light and dark mode, through favorite → forecast placeholder → back and search → placeholder → back.
+The apps were also run by hand: on an Android phone (Android 16) and on the iOS simulator, in Spanish, in light and dark mode, through favorite → forecast placeholder → back and search → placeholder → back. The R8 release build was installed on the phone (signed with the debug key) and went through the same flow, confirming no keep rule is missing.
 
 ## How to build and run
 
@@ -61,7 +61,7 @@ iOS app: open `iosApp/iosApp.xcodeproj`, choose the `NavyWeather` scheme and a s
 xcodebuild -project iosApp/iosApp.xcodeproj -scheme NavyWeather -destination 'platform=iOS Simulator,name=iPhone 17 Pro' build
 ```
 
-Validate the OpenSpec change:
+Validate the main specs:
 ```bash
-openspec validate --changes --strict
+openspec validate --specs --strict
 ```

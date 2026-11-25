@@ -15,6 +15,7 @@ import com.navyblue.navyweather.feature.favorites.fake.TestCities
 import com.navyblue.navyweather.core.common.result.AppError
 import com.navyblue.navyweather.core.common.result.AppResult
 import kotlinx.coroutines.test.advanceUntilIdle
+import kotlinx.coroutines.test.runCurrent
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
@@ -136,5 +137,20 @@ class FavoritesViewModelTest {
         advanceUntilIdle()
 
         assertEquals(listOf(TestCities.lima.id), repository.refreshedIds)
+    }
+
+    @Test
+    fun `pull to refresh during a background refresh runs right after it`() = runViewModelTest {
+        // Lima is fresh, so the opening refresh downloads nothing; the pull must download it anyway.
+        val freshLima = TestCities.lima.copy(temperatureCelsius = 18.0, weatherUpdatedAtEpochMillis = 1_000_000_000)
+        val repository = FakeFavoritesRepository(listOf(freshLima, TestCities.madrid), refreshDelayMillis = 1_000)
+        val viewModel = viewModel(repository)
+        runCurrent() // The opening refresh starts and is downloading Madrid.
+
+        viewModel.onIntent(FavoritesIntent.RefreshRequested)
+        advanceUntilIdle()
+
+        assertEquals(listOf(TestCities.madrid.id, TestCities.lima.id, TestCities.madrid.id), repository.refreshedIds)
+        assertEquals(false, viewModel.state.value.isRefreshing)
     }
 }

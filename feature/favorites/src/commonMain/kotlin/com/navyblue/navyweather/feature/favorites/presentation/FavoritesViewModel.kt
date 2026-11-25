@@ -27,6 +27,7 @@ class FavoritesViewModel(
 
     private var refreshJob: Job? = null
     private var refreshedOnOpen = false
+    private var forceRefreshPending = false
 
     init {
         observeFavorites()
@@ -64,14 +65,26 @@ class FavoritesViewModel(
         }
     }
 
+    /**
+     * One refresh at a time. A pull to refresh that arrives while a background refresh is running
+     * is not dropped: it runs right after, so the user's explicit request is always honored.
+     */
     private fun refresh(force: Boolean) {
-        if (refreshJob?.isActive == true) return
+        if (refreshJob?.isActive == true) {
+            if (force) forceRefreshPending = true
+            return
+        }
         refreshJob = viewModelScope.launch {
-            onIntent(FavoritesIntent.RefreshStarted)
-            val error = refreshWeather(currentState.cities, force)
-            onIntent(FavoritesIntent.RefreshFinished)
-            // Background refreshes fail silently (cached values stay); a pull deserves an answer.
-            if (error != null && force) sendEffect(FavoritesEffect.ShowRefreshError(error))
+            var runForced = force
+            do {
+                forceRefreshPending = false
+                onIntent(FavoritesIntent.RefreshStarted)
+                val error = refreshWeather(currentState.cities, runForced)
+                onIntent(FavoritesIntent.RefreshFinished)
+                // Background refreshes fail silently (cached values stay); a pull deserves an answer.
+                if (error != null && runForced) sendEffect(FavoritesEffect.ShowRefreshError(error))
+                runForced = forceRefreshPending
+            } while (runForced)
         }
     }
 

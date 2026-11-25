@@ -24,8 +24,8 @@ Phases 1 and 2 delivered the build, the MVI contract, typed routes and every cor
 
 | ADR | Decision |
 |---|---|
-| [0014](../../../docs/adr/0014-navigation-owned-by-the-composition-root.md) | Type-safe Navigation Compose. Each feature exposes one `NavGraphBuilder` entry point, and only `shared` builds the `NavHost`. Placeholders stand in for destinations of later phases |
-| [0015](../../../docs/adr/0015-ios-static-framework-built-from-xcode.md) | iOS consumes `shared` as a static framework that Xcode builds through Gradle's `embedAndSignAppleFrameworkForXcode` |
+| [0014](../../../../docs/adr/0014-navigation-owned-by-the-composition-root.md) | Type-safe Navigation Compose. Each feature exposes one `NavGraphBuilder` entry point, and only `shared` builds the `NavHost`. Placeholders stand in for destinations of later phases |
+| [0015](../../../../docs/adr/0015-ios-static-framework-built-from-xcode.md) | iOS consumes `shared` as a static framework that Xcode builds through Gradle's `embedAndSignAppleFrameworkForXcode` |
 
 ### `feature:favorites`
 
