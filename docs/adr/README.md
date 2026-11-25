@@ -21,3 +21,9 @@ An ADR records one architectural or technology decision: the context, what was d
 | ADR | Decision | Status | Phase |
 |---|---|---|---|
 | [0001](0001-spec-driven-development-with-openspec.md) | Spec-driven development with OpenSpec | Accepted | 0 |
+| [0002](0002-clean-architecture-layers-as-packages.md) | Clean Architecture layers as packages, not submodules | Accepted | 1 |
+| [0003](0003-in-house-mvi-contract.md) | MVI through an in-house contract | Accepted | 1 |
+| [0004](0004-convention-plugins-in-build-logic.md) | Convention plugins in an included build-logic build | Accepted | 1 |
+| [0005](0005-jvm-target-as-test-host.md) | JVM target as the shared test host | Accepted | 1 |
+| [0006](0006-material-3-expressive-pre-release.md) | Material 3 Expressive pre-release | Accepted | 1 |
+| [0007](0007-gradle-daemon-on-jdk-25.md) | Gradle daemon pinned to JDK 25 | Accepted | 1 |

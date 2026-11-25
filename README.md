@@ -41,7 +41,7 @@ graph TD
 | Dependency injection | Koin |
 | Tests | kotlin.test, coroutines-test, Turbine, Mokkery, Compose UI Test, Konsist |
 
-The reasoning behind each choice, compared with its alternatives, is documented in `docs/tech-stack.md`.
+The reasoning behind each choice, compared with its alternatives, is documented in [docs/tech-stack.md](docs/tech-stack.md). The module structure, layers and MVI contract are described in [docs/architecture.md](docs/architecture.md), and every architectural decision has its own record in [docs/adr](docs/adr/README.md).
 
 ## How this project is built
 
@@ -54,12 +54,21 @@ The project is **spec-driven**, using [OpenSpec](https://github.com/Fission-AI/O
 
 The workflow itself is described in [Phase 0](docs/phases/phase-0-spec-tooling.md).
 
+## Getting started
+
+Requirements: JDK 25, the Android SDK (platform 37) with `sdk.dir` in `local.properties`, and Xcode with an iOS simulator for iOS tests.
+
+Run every shared test on the JVM and the iOS simulator:
+```bash
+./gradlew allTests
+```
+
 ## Roadmap
 
 | Phase | Scope | Status |
 |---|---|---|
 | 0. [Spec tooling](docs/phases/phase-0-spec-tooling.md) | OpenSpec setup, AI agent commands, ADR process | Done |
-| 1. Build foundation | Gradle setup, version catalog, convention plugins, base core modules, architecture docs | Planned |
+| 1. [Build foundation](docs/phases/phase-1-build-foundation.md) | Gradle setup, version catalog, convention plugins, base core modules, architecture docs | Done |
 | 2. Core infrastructure | Network, local database, preferences, shared weather data source, design system | Planned |
 | 3. Favorite places and app shell | Favorites feature end to end, Android and iOS apps, navigation and DI wiring | Planned |
 | 4. Search and forecast | City search and the offline-first weather forecast | Planned |
