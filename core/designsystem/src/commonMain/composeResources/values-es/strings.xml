@@ -1,0 +1,9 @@
+<resources>
+    <string name="error_title">Algo salió mal</string>
+    <string name="retry">Reintentar</string>
+    <string name="loading">Cargando</string>
+    <string name="error_network">Revisa tu conexión e inténtalo de nuevo.</string>
+    <string name="error_server">El servicio del clima no responde. Inténtalo en un momento.</string>
+    <string name="error_data">No pudimos leer los datos del clima. Inténtalo más tarde.</string>
+    <string name="error_unknown">Ocurrió algo inesperado. Inténtalo de nuevo.</string>
+</resources>

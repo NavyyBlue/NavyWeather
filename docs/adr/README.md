@@ -27,3 +27,9 @@ An ADR records one architectural or technology decision: the context, what was d
 | [0005](0005-jvm-target-as-test-host.md) | JVM target as the shared test host | Accepted | 1 |
 | [0006](0006-material-3-expressive-pre-release.md) | Material 3 Expressive pre-release | Accepted | 1 |
 | [0007](0007-gradle-daemon-on-jdk-25.md) | Gradle daemon pinned to JDK 25 | Accepted | 1 |
+| [0008](0008-ktor-client-with-native-engines.md) | Ktor Client with native engines and kotlinx.serialization | Accepted | 2 |
+| [0009](0009-room-kmp-with-bundled-sqlite.md) | Room KMP with bundled SQLite for the local cache | Accepted | 2 |
+| [0010](0010-datastore-for-preferences.md) | DataStore Preferences for user settings | Accepted | 2 |
+| [0011](0011-koin-for-dependency-injection.md) | Koin for dependency injection | Accepted | 2 |
+| [0012](0012-offline-first-single-source-of-truth.md) | Offline-first with the local database as the single source of truth | Accepted | 2 |
+| [0013](0013-brand-color-scheme-from-one-seed.md) | Color scheme generated from one brand seed | Accepted | 2 |

@@ -69,7 +69,7 @@ Run every shared test on the JVM and the iOS simulator:
 |---|---|---|
 | 0. [Spec tooling](docs/phases/phase-0-spec-tooling.md) | OpenSpec setup, AI agent commands, ADR process | Done |
 | 1. [Build foundation](docs/phases/phase-1-build-foundation.md) | Gradle setup, version catalog, convention plugins, base core modules, architecture docs | Done |
-| 2. Core infrastructure | Network, local database, preferences, shared weather data source, design system | Planned |
+| 2. [Core infrastructure](docs/phases/phase-2-core-infrastructure.md) | Network, local database, preferences, shared weather data source, design system | Done |
 | 3. Favorite places and app shell | Favorites feature end to end, Android and iOS apps, navigation and DI wiring | Planned |
 | 4. Search and forecast | City search and the offline-first weather forecast | Planned |
 | 5. Quality and documentation | Architecture tests, final documentation and AI usage report | Planned |

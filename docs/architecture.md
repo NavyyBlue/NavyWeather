@@ -18,11 +18,11 @@ NavyWeather/
 │   ├── mvi/                    ← MVI contract: MviViewModel, Reducer, UiState/UiIntent/UiEffect
 │   ├── navigation/             ← Typed route contracts shared by features
 │   ├── testing/                ← Test helpers (virtual-time ViewModel tests)
-│   ├── network/                ← Ktor client and error mapping                (Phase 2)
-│   ├── database/               ← Room database, entities and DAOs             (Phase 2)
-│   ├── datastore/              ← User preferences                             (Phase 2)
-│   ├── weather/                ← Open-Meteo forecast download into the cache  (Phase 2)
-│   └── designsystem/           ← Material 3 Expressive theme and shared states (Phase 2)
+│   ├── network/                ← Ktor client and error mapping
+│   ├── database/               ← Room database, entities and DAOs
+│   ├── datastore/              ← User preferences
+│   ├── weather/                ← Open-Meteo forecast download into the cache
+│   └── designsystem/           ← Material 3 Expressive theme and shared states
 │
 └── feature/
     ├── favorites/                                                             (Phase 3)
@@ -77,8 +77,8 @@ Every module applies one plugin for its role and declares only its own dependenc
 | Plugin | Used by | Adds |
 |---|---|---|
 | `navyweather.kmp.library` | Every shared module | Targets, Android namespace derived from the module path, coroutines, `kotlin.test`, coroutines-test |
-| `navyweather.kmp.compose` | Modules with UI | Compose Multiplatform, Material 3, icons, Compose Resources |
-| `navyweather.kmp.feature` | Feature modules | `core:common`, `core:mvi`, `core:designsystem`, `core:navigation`, Koin, Navigation Compose, serialization, Mokkery, Turbine, Compose UI test |
+| `navyweather.kmp.compose` | Modules with UI | Compose Multiplatform, Material 3, icons, Compose Resources, Compose UI test (with the desktop runtime for the JVM host) |
+| `navyweather.kmp.feature` | Feature modules | `core:common`, `core:mvi`, `core:designsystem`, `core:navigation`, Koin, Navigation Compose, serialization, Mokkery, Turbine |
 | `navyweather.room` | `core:database` | KSP + Room compiler for every target, bundled SQLite, schema export |
 
 ## Clean Architecture: packages, not submodules
@@ -157,7 +157,41 @@ The contract is about 50 lines in `core:mvi`, built on the multiplatform android
 
 ## Error model
 
-Operations that can fail return `AppResult<T>` (`Success` or `Failure`) instead of throwing. `AppError` is a closed set: `Network`, `Http(code)`, `Serialization` and `Unknown(message)`. The network layer (Phase 2) maps library exceptions into it, and the design system turns each kind into a localized message.
+Operations that can fail return `AppResult<T>` (`Success` or `Failure`) instead of throwing. `AppError` is a closed set: `Network`, `Http(code)`, `Serialization` and `Unknown(message)`. `safeApiCall` in `core:network` maps library exceptions into it (never swallowing coroutine cancellation), and `AppError.message()` in `core:designsystem` turns each kind into a localized message.
+
+## Core modules and data flow
+
+```mermaid
+graph LR
+    designsystem[core:designsystem] --> common[core:common]
+    weather[core:weather] --> network[core:network]
+    weather --> database[core:database]
+    network --> common
+    datastore[core:datastore]
+```
+
+The local database is the single source of truth ([ADR-0012](adr/0012-offline-first-single-source-of-truth.md)):
+
+```mermaid
+graph LR
+    API[Open-Meteo] -- ForecastSync --> DB[(Room cache)]
+    DB -- Flow --> Repo[Feature repository]
+    Repo --> UI[Screen]
+    UI -- refresh intent --> Repo
+    Repo -- "sync when stale" --> API
+```
+
+Screens never wait for the network: they observe the cache, and a feature's repository asks `ForecastSync` to refresh it when its freshness rule says so. A failed refresh leaves the cache untouched and is reported as an `AppError`.
+
+| Module | Public API |
+|---|---|
+| `core:network` | `HttpClientFactory`, `safeApiCall`, `networkModule(enableHttpLogging)` ([ADR-0008](adr/0008-ktor-client-with-native-engines.md)) |
+| `core:database` | `AppDatabase`, entities, `FavoriteCityDao`, `ForecastDao`, `databaseModule` ([ADR-0009](adr/0009-room-kmp-with-bundled-sqlite.md)) |
+| `core:datastore` | `UserPreferencesRepository`, `TemperatureUnit`, `dataStoreModule` ([ADR-0010](adr/0010-datastore-for-preferences.md)) |
+| `core:weather` | `ForecastSync`, `weatherModule` |
+| `core:designsystem` | `NavyWeatherTheme`, `Spacing`, `tabularNumbers()`, `LoadingState`, `EmptyState`, `ErrorState`, `AppError.message()` ([ADR-0013](adr/0013-brand-color-scheme-from-one-seed.md)) |
+
+Each module that needs bindings exposes a Koin module; the composition root assembles them ([ADR-0011](adr/0011-koin-for-dependency-injection.md)).
 
 ## Navigation contracts
 
