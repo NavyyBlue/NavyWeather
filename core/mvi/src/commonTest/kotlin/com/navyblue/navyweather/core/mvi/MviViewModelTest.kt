@@ -1,7 +1,10 @@
 package com.navyblue.navyweather.core.mvi
 
+import androidx.lifecycle.viewModelScope
 import app.cash.turbine.test
 import com.navyblue.navyweather.core.testing.runViewModelTest
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
@@ -13,6 +16,8 @@ class MviViewModelTest {
     private sealed interface CounterIntent : UiIntent {
         data object Increment : CounterIntent
         data object Announce : CounterIntent
+        data object Load : CounterIntent
+        data class Loaded(val count: Int) : CounterIntent
     }
 
     private data class Announced(val count: Int) : UiEffect
@@ -21,6 +26,8 @@ class MviViewModelTest {
         when (intent) {
             CounterIntent.Increment -> state.copy(count = state.count + 1)
             CounterIntent.Announce -> state
+            CounterIntent.Load -> state
+            is CounterIntent.Loaded -> state.copy(count = intent.count)
         }
     }
 
@@ -34,6 +41,11 @@ class MviViewModelTest {
             when (intent) {
                 CounterIntent.Increment -> stateSeenBySideEffects += currentState.count
                 CounterIntent.Announce -> sendEffect(Announced(currentState.count))
+                CounterIntent.Load -> viewModelScope.launch {
+                    delay(100) // Simulated background work.
+                    onIntent(CounterIntent.Loaded(count = 42))
+                }
+                is CounterIntent.Loaded -> Unit
             }
         }
     }
@@ -46,6 +58,17 @@ class MviViewModelTest {
             assertEquals(CounterState(0), awaitItem())
             viewModel.onIntent(CounterIntent.Increment)
             assertEquals(CounterState(1), awaitItem())
+        }
+    }
+
+    @Test
+    fun `background result comes back as an intent through the reducer`() = runViewModelTest {
+        val viewModel = CounterViewModel()
+
+        viewModel.state.test {
+            assertEquals(CounterState(0), awaitItem())
+            viewModel.onIntent(CounterIntent.Load)
+            assertEquals(CounterState(42), awaitItem())
         }
     }
 
