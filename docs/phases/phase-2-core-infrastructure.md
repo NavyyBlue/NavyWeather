@@ -1,6 +1,6 @@
 # Phase 2 — Core infrastructure
 
-**OpenSpec change:** `phase-2-core-infrastructure`
+**OpenSpec change:** [`phase-2-core-infrastructure`](../../openspec/changes/archive/2026-11-25-phase-2-core-infrastructure/) (archived; requirements now in [`openspec/specs/`](../../openspec/specs/))
 **Capabilities:** `networking`, `local-cache`, `weather-data`, `user-preferences`, `design-system` (new) and `error-handling` (extended)
 **ADRs:** [0008](../adr/0008-ktor-client-with-native-engines.md), [0009](../adr/0009-room-kmp-with-bundled-sqlite.md), [0010](../adr/0010-datastore-for-preferences.md), [0011](../adr/0011-koin-for-dependency-injection.md), [0012](../adr/0012-offline-first-single-source-of-truth.md), [0013](../adr/0013-brand-color-scheme-from-one-seed.md)
 
@@ -71,7 +71,7 @@ Compile every module for Android, iOS devices and the iOS simulator:
 ./gradlew compileAndroidMain compileKotlinIosArm64 compileKotlinIosSimulatorArm64
 ```
 
-Validate the OpenSpec change:
+Validate the main specs:
 ```bash
-openspec validate --changes --strict
+openspec validate --specs --strict
 ```

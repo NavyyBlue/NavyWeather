@@ -26,12 +26,12 @@ The decisions with lasting impact are recorded as ADRs written in this change:
 
 | ADR | Decision |
 |---|---|
-| [0008](../../../docs/adr/0008-ktor-client-with-native-engines.md) | Ktor Client with native engines and kotlinx.serialization for HTTP |
-| [0009](../../../docs/adr/0009-room-kmp-with-bundled-sqlite.md) | Room KMP with bundled SQLite for the local cache |
-| [0010](../../../docs/adr/0010-datastore-for-preferences.md) | DataStore Preferences for user settings |
-| [0011](../../../docs/adr/0011-koin-for-dependency-injection.md) | Koin for dependency injection, with a test that verifies the graph |
-| [0012](../../../docs/adr/0012-offline-first-single-source-of-truth.md) | Offline-first: the local database is the single source of truth, and forecast download is shared in `core:weather` |
-| [0013](../../../docs/adr/0013-brand-color-scheme-from-one-seed.md) | Color scheme generated from one brand seed with MaterialKolor (Fidelity) |
+| [0008](../../../../docs/adr/0008-ktor-client-with-native-engines.md) | Ktor Client with native engines and kotlinx.serialization for HTTP |
+| [0009](../../../../docs/adr/0009-room-kmp-with-bundled-sqlite.md) | Room KMP with bundled SQLite for the local cache |
+| [0010](../../../../docs/adr/0010-datastore-for-preferences.md) | DataStore Preferences for user settings |
+| [0011](../../../../docs/adr/0011-koin-for-dependency-injection.md) | Koin for dependency injection, with a test that verifies the graph |
+| [0012](../../../../docs/adr/0012-offline-first-single-source-of-truth.md) | Offline-first: the local database is the single source of truth, and forecast download is shared in `core:weather` |
+| [0013](../../../../docs/adr/0013-brand-color-scheme-from-one-seed.md) | Color scheme generated from one brand seed with MaterialKolor (Fidelity) |
 
 ### Module graph
 
@@ -45,7 +45,7 @@ core:datastore        (standalone)
 `core:weather` uses `core:network` and `core:database` as implementation dependencies, so features that use `ForecastSync` do not see Ktor. `core:network` exposes Ktor's `HttpClient` as `api`, because `core:weather` and the search feature (Phase 4) build their API clients on it.
 
 ### `core:network`
-- `HttpClientFactory.create(engine, logLevel)` builds the client with `expectSuccess = true`, JSON (`ignoreUnknownKeys`, `explicitNulls = false`), `HttpTimeout` (connect 10 s, request 15 s) and, only when `logLevel != NONE`, the `Logging` plugin routed through Kermit. Taking the engine as a parameter lets tests use `MockEngine`.
+- `HttpClientFactory.create(engine, logLevel)` builds the client with `expectSuccess = true`, JSON (`ignoreUnknownKeys`, `explicitNulls = false`), `HttpTimeout` (connect 10 s, request 15 s, and a 10 s socket timeout, because the Darwin engine ignores the connect timeout and only applies the socket one) and, only when `logLevel != NONE`, the `Logging` plugin routed through Kermit. Taking the engine as a parameter lets tests use `MockEngine`.
 - `platformHttpEngine()` is an `expect` function: OkHttp on Android and on the JVM test host, Darwin on iOS.
 - `safeApiCall { }` rethrows `CancellationException` and maps the rest:
 
@@ -74,14 +74,14 @@ core:datastore        (standalone)
 - Weather entities have no foreign key to `favorite_cities`, because the forecast screen caches places that are not favorites.
 
 ### `core:datastore`
-- `UserPreferencesRepository` is an interface, so features depend on it rather than on DataStore. `DataStoreUserPreferencesRepository` stores the unit's name as a string, falls back to Celsius for unknown values, and applies `distinctUntilChanged()`.
+- `UserPreferencesRepository` is an interface, so features depend on it rather than on DataStore. `DataStoreUserPreferencesRepository` stores the unit's name as a string, falls back to Celsius for unknown values, and applies `distinctUntilChanged()`. A corrupted file is replaced with empty preferences (`ReplaceFileCorruptionHandler`), and read errors fall back to the defaults, so settings never crash a screen.
 - `TemperatureUnit.fromCelsius(Double): Int` converts and rounds.
 - DataStore allows only one instance per file, so it is a Koin `single`. Each platform module provides the file path, and tests use a temporary file per test target.
 
 ### `core:weather`
 - `OpenMeteoForecastApi(client)` sends the request described in `specs/weather-data` and decodes `ForecastResponseDto`. Open-Meteo returns daily data as parallel arrays, so the DTO keeps them that way.
 - `ForecastSync(api, dao, clock)`:
-  - `sync(cityId, lat, lon)` wraps the call in `safeApiCall`, maps the DTO to entities and calls `replaceForecast`. On failure it never touches the DAO.
+  - `sync(cityId, lat, lon)` runs the download, the mapping and `replaceForecast` inside one `safeApiCall`, so a failed cache write is returned as an error too. The cache is written only after a complete, parsed response.
   - `lastSyncedAtEpochMillis(cityId)` reads the cached `fetchedAtEpochMillis`.
   - Daily mapping zips the arrays up to the shortest one.
 - `kotlin.time.Clock` is injected so tests control the download time.
