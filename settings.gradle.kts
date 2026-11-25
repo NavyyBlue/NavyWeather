@@ -29,3 +29,10 @@ include(":core:database")
 include(":core:datastore")
 include(":core:weather")
 include(":core:designsystem")
+
+// Features
+include(":feature:favorites")
+include(":shared")
+
+// Apps
+include(":androidApp")

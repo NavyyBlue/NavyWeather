@@ -9,9 +9,9 @@ NavyWeather/
 ├── build-logic/                ← Convention plugins (shared Gradle configuration)
 ├── gradle/libs.versions.toml   ← Version catalog
 │
-├── androidApp/                 ← Android entry point                         (Phase 3)
-├── iosApp/                     ← Xcode project hosting the shared UI          (Phase 3)
-├── shared/                     ← Composition root: NavHost, Koin graph, iOS framework (Phase 3)
+├── androidApp/                 ← Android entry point
+├── iosApp/                     ← Xcode project hosting the shared UI
+├── shared/                     ← Composition root: NavHost, Koin graph, iOS framework
 │
 ├── core/
 │   ├── common/                 ← AppResult/AppError, dispatchers, device language
@@ -25,7 +25,7 @@ NavyWeather/
 │   └── designsystem/           ← Material 3 Expressive theme and shared states
 │
 └── feature/
-    ├── favorites/                                                             (Phase 3)
+    ├── favorites/
     ├── search/                                                                (Phase 4)
     └── forecast/                                                              (Phase 4)
 ```
@@ -196,3 +196,19 @@ Each module that needs bindings exposes a Koin module; the composition root asse
 ## Navigation contracts
 
 Routes are `@Serializable` types in `core:navigation`: `FavoritesRoute`, `SearchRoute` and `ForecastRoute(cityId, name, country, latitude, longitude)`. Arguments are primitives, so no feature exposes its domain models to others.
+
+## Feature entry points and the composition root
+
+Navigation is owned by `shared` ([ADR-0014](adr/0014-navigation-owned-by-the-composition-root.md)):
+
+- Each feature exposes one `NavGraphBuilder` extension, for example `favoritesScreen(onNavigateToForecast, onNavigateToSearch)`. Its ViewModel emits navigation as an effect; the destination calls the callback; the feature never sees a `NavController`.
+- `shared` builds the `NavHost`, connects callbacks to routes and defines back-stack rules. Until a feature exists, `shared` registers a placeholder destination for its route.
+- `shared` also assembles every Koin module (`appModules()`), provides app-wide primitives (`Clock`, `LanguageProvider`) and is the iOS framework.
+
+```
+androidApp ── MainActivity ─────────┐
+                                    ├──► App() ──► NavHost ──► feature entry points
+iosApp ── SwiftUI ── MainViewController ┘       └── initKoin(appModules)
+```
+
+The Android `Application` and the iOS `App` initializer start Koin once, with HTTP logging only in debug builds. On iOS, Xcode builds `shared` as a static framework through Gradle ([ADR-0015](adr/0015-ios-static-framework-built-from-xcode.md)).

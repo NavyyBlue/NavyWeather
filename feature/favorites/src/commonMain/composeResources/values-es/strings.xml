@@ -1,0 +1,11 @@
+<resources>
+    <string name="favorites_title">NavyWeather</string>
+    <string name="favorites_subtitle">Tus lugares</string>
+    <string name="favorites_empty_title">Aún no tienes lugares favoritos</string>
+    <string name="favorites_empty_message">Busca una ciudad y guárdala como favorita para verla aquí.</string>
+    <string name="favorites_search_city">Buscar ciudad</string>
+    <string name="favorites_remove_city">Quitar %1$s de favoritos</string>
+    <string name="favorites_removed">%1$s eliminada</string>
+    <string name="favorites_undo">Deshacer</string>
+    <string name="favorites_temperature_unavailable">Temperatura aún no disponible</string>
+</resources>

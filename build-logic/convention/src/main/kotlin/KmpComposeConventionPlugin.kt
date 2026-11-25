@@ -39,6 +39,8 @@ class KmpComposeConventionPlugin : Plugin<Project> {
             sourceSets.getByName("jvmTest").dependencies {
                 // Skiko runtime so Compose UI tests can run on the JVM host.
                 implementation(composeDesktopCurrentOs)
+                // Dispatchers.Main for ViewModels driven by a Compose UI test on the JVM host.
+                implementation(libs.lib("kotlinx-coroutines-swing"))
             }
         }
 

@@ -1,0 +1,4 @@
+<resources>
+    <!-- Dark `surface` role of the generated scheme. -->
+    <color name="window_background">#FF121319</color>
+</resources>
