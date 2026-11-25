@@ -6,7 +6,9 @@ import com.navyblue.navyweather.buildlogic.pluginId
 import com.navyblue.navyweather.buildlogic.version
 import org.gradle.api.Plugin
 import org.gradle.api.Project
+import org.gradle.api.tasks.testing.Test
 import org.gradle.kotlin.dsl.configure
+import org.gradle.kotlin.dsl.withType
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
 
 /**
@@ -46,6 +48,12 @@ class KmpLibraryConventionPlugin : Plugin<Project> {
                 implementation(kotlin("test"))
                 implementation(libs.lib("kotlinx-coroutines-test"))
             }
+        }
+
+        // JVM test host on JDK 25: the bundled SQLite driver loads a native library and DataStore's
+        // bundled protobuf uses sun.misc.Unsafe; both only print warnings, which these flags silence.
+        tasks.withType<Test>().configureEach {
+            jvmArgs("--enable-native-access=ALL-UNNAMED", "--sun-misc-unsafe-memory-access=allow")
         }
     }
 }
