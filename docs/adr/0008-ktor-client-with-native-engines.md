@@ -25,4 +25,5 @@ Use **Ktor Client 3** with the **OkHttp** engine on Android and the **Darwin** e
 
 - Positive: one HTTP code path for both platforms, and each one uses its native networking stack.
 - Positive: every failure mode is tested with `MockEngine`, including timeouts and cancellation.
+- Note: the Darwin engine ignores Ktor's connect timeout and applies only the socket timeout, as `NSURLRequest.timeoutInterval`. The socket timeout is set to the same 10 s, so a stalled connection is bounded on iOS too.
 - Negative: `core:network` exposes Ktor's `HttpClient` to the modules that build API clients on it (`core:weather` and, later, search). Domain layers never see it.

@@ -9,8 +9,9 @@ import kotlinx.serialization.SerializationException
 import kotlin.coroutines.cancellation.CancellationException
 
 /**
- * Runs a network call and turns every failure into an [AppResult.Failure], so no Ktor or
- * kotlinx.io exception ever reaches the domain layer.
+ * Runs a remote operation (the call and anything done with its response, such as caching it)
+ * and turns every failure into an [AppResult.Failure], so no Ktor, kotlinx.io or storage
+ * exception ever reaches the domain layer. Coroutine cancellation is always rethrown.
  */
 suspend fun <T> safeApiCall(block: suspend () -> T): AppResult<T> = try {
     AppResult.Success(block())

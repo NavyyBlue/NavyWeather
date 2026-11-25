@@ -66,6 +66,14 @@ class DataStoreUserPreferencesRepositoryTest {
         assertEquals(TemperatureUnit.CELSIUS, repository.temperatureUnit.first())
     }
 
+    @Test
+    fun `corrupted preferences file is read as the defaults`() = runTest {
+        writeRawFile(path, byteArrayOf(0x7F, 0x00, 0x13, 0x37, 0x42))
+        val repository = DataStoreUserPreferencesRepository(createPreferencesDataStore(path, scope = backgroundScope))
+
+        assertEquals(TemperatureUnit.CELSIUS, repository.temperatureUnit.first())
+    }
+
     /** Runs [block] with a scope whose DataStore is fully closed (file released) when it returns. */
     private suspend fun TestScope.withDataStoreScope(block: suspend (CoroutineScope) -> Unit) {
         val job = Job()

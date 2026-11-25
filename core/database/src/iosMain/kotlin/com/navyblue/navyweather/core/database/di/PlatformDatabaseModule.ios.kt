@@ -13,9 +13,12 @@ import platform.Foundation.NSUserDomainMask
 
 internal actual fun platformDatabaseModule(): Module = module {
     single<RoomDatabase.Builder<AppDatabase>> {
-        Room.databaseBuilder<AppDatabase>(name = "${applicationSupportDirectory()}/$DATABASE_NAME")
+        Room.databaseBuilder<AppDatabase>(name = databaseFilePath())
     }
 }
+
+/** The database file, inside Application Support. Internal so tests can check its location. */
+internal fun databaseFilePath(): String = "${applicationSupportDirectory()}/$DATABASE_NAME"
 
 // Application Support: app data that is not user-created and is not shown in the Files app.
 @OptIn(ExperimentalForeignApi::class)

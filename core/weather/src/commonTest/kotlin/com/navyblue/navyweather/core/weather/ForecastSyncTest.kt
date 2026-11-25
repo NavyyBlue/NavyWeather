@@ -4,6 +4,10 @@ import com.navyblue.navyweather.core.common.result.AppError
 import com.navyblue.navyweather.core.common.result.AppResult
 import com.navyblue.navyweather.core.database.AppDatabase
 import com.navyblue.navyweather.core.database.buildAppDatabase
+import com.navyblue.navyweather.core.database.dao.ForecastDao
+import com.navyblue.navyweather.core.database.entity.CurrentWeatherEntity
+import com.navyblue.navyweather.core.database.entity.DailyForecastEntity
+import androidx.sqlite.SQLiteException
 import com.navyblue.navyweather.core.network.HttpClientFactory
 import io.ktor.client.engine.mock.MockEngine
 import io.ktor.client.engine.mock.respond
@@ -17,6 +21,7 @@ import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNull
+import kotlin.test.assertTrue
 import kotlin.time.Clock
 import kotlin.time.Instant
 
@@ -104,6 +109,27 @@ class ForecastSyncTest {
         val days = dao.observeDaily(CITY_ID).first()
         assertEquals(6, days.size)
         assertEquals("2026-11-30", days.last().date)
+    }
+
+    @Test
+    fun `failed cache write is reported as an error instead of thrown`() = runTest {
+        val failingDao = object : ForecastDao by dao {
+            override suspend fun replaceForecast(current: CurrentWeatherEntity, daily: List<DailyForecastEntity>) =
+                throw SQLiteException("database or disk is full")
+        }
+        val failingSync = ForecastSync(
+            api = OpenMeteoForecastApi(
+                HttpClientFactory.create(
+                    MockEngine { respond(body, status, headersOf(HttpHeaders.ContentType, "application/json")) },
+                ),
+            ),
+            dao = failingDao,
+            clock = clock,
+        )
+
+        val result = failingSync.sync(CITY_ID, latitude = -12.05, longitude = -77.04)
+
+        assertTrue(result is AppResult.Failure && result.error is AppError.Unknown, "$result")
     }
 
     private companion object {

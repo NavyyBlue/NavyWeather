@@ -45,6 +45,10 @@ object HttpClientFactory {
         install(HttpTimeout) {
             this.connectTimeoutMillis = connectTimeoutMillis
             this.requestTimeoutMillis = requestTimeoutMillis
+            // The Darwin engine ignores the connect timeout and only applies the socket timeout
+            // (as NSURLRequest.timeoutInterval). Using the same value keeps a stalled connection
+            // bounded by 10 s on iOS too; on OkHttp it bounds reads and writes the same way.
+            socketTimeoutMillis = connectTimeoutMillis
         }
 
         if (logLevel != LogLevel.NONE) {

@@ -31,23 +31,28 @@ Build, once and in core modules, the infrastructure every feature needs: talking
 
 ## Tests added
 
-54 tests on the JVM and 51 on the iOS simulator across all modules (including Phase 1).
+62 tests on the JVM and 60 on the iOS simulator across all modules (including Phase 1).
 
 | Test | Verifies |
 |---|---|
 | `SafeApiCallTest` | Success with unknown fields ignored; 503 → server error; missing field and invalid JSON → data error; I/O → network error; cancellation reports no error |
 | `HttpClientFactoryTest` | 10 s / 15 s defaults; exceeding the request timeout → network error; logging installed only when requested |
+| `RequestLoggingTest` | Nothing logged by default; the request line and response status go to the debug log when enabled |
 | `FavoriteCityDaoTest` | Ordering and reactivity; saving twice keeps one entry; is-favorite transitions; a favorite gains its temperature |
 | `ForecastDaoTest` | Current conditions stored; days ordered by date; a moved window drops old days; a repeated date does not fail |
 | `DatabaseModuleTest` | The Koin module provides both DAOs |
-| `TemperatureUnitTest`, `DataStoreUserPreferencesRepositoryTest` | Rounding and Fahrenheit conversion; Celsius default; persisted across a restart; unchanged value not re-emitted; unknown value read as Celsius |
+| `PersistenceTest` | Data stored in a database file is there after closing and reopening it |
+| `DatabaseLocationTest` (iOS) | The database file is in Application Support |
+| `TemperatureUnitTest`, `DataStoreUserPreferencesRepositoryTest` | Rounding and Fahrenheit conversion; Celsius default; persisted across a restart; unchanged value not re-emitted; unknown value and corrupted file read as Celsius |
 | `OpenMeteoForecastApiTest` | Request URL and parameters; response parsing |
-| `ForecastSyncTest` | Download stored with its time; last download time; a 503 keeps the cache; uneven daily lists keep the common days |
+| `ForecastSyncTest` | Download stored with its time; last download time; a 503 keeps the cache; a failed cache write is returned as an error; uneven daily lists keep the common days |
 | `ThemeTest` | Light `primaryContainer` is `#1F3A93`; dark scheme differs; dynamic color off Android keeps the brand scheme |
+| `ShapesTest` | The theme exposes the 4–48 dp corner scale |
+| `EmphasisTest` | Error and empty states sit on surface, use primary only for the action and never `primaryContainer` |
 | `StatesTest` | Retry invoked once; retry reachable by scrolling at 200 % font in a short window; loading announced to screen readers |
 | `ErrorMessageTest`, `ErrorMessageLocaleTest` (JVM) | Every kind has a message; server codes share one; exact English and Spanish texts |
 
-The English and Spanish texts are pinned only on the JVM, because only the JVM test host lets a test switch the locale at runtime.
+The English and Spanish texts are pinned only on the JVM, because only the JVM test host lets a test switch the locale at runtime. Android-specific code (private storage paths, dynamic color) has no unit tests, since the JVM is the test host (ADR-0005); it is exercised when the app runs in Phase 3.
 
 ## How to build and test
 

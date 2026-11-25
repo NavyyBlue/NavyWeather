@@ -9,3 +9,7 @@ actual fun uniqueTempPreferencesPath(): String =
 actual fun deleteTempFile(path: String) {
     File(path).delete()
 }
+
+actual fun writeRawFile(path: String, bytes: ByteArray) {
+    File(path).writeBytes(bytes)
+}

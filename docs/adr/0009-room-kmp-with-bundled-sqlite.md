@@ -27,3 +27,4 @@ Use **Room KMP** with the **bundled SQLite driver** and KSP for every target. A 
 - Positive: in-memory databases make DAO tests fast on the JVM and the iOS simulator.
 - Negative: KSP runs for four targets in `core:database`, which slows that module's build. Only `core:database` applies the Room convention.
 - Negative: Room needs every entity in one database, so entities live in core rather than in features (see ADR-0002).
+- Trade-off: favorites and the forecast cache share one database file. On iOS it lives in Application Support, which is included in device and iCloud backups. That is deliberate, because favorites are user data worth restoring, and the forecast rows are small. The re-downloadable rows are not split into a separate file excluded from backup.

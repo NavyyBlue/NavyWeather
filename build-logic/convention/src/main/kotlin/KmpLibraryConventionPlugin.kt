@@ -7,6 +7,7 @@ import com.navyblue.navyweather.buildlogic.version
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.tasks.testing.Test
+import org.gradle.process.CommandLineArgumentProvider
 import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.withType
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
@@ -50,10 +51,20 @@ class KmpLibraryConventionPlugin : Plugin<Project> {
             }
         }
 
-        // JVM test host on JDK 25: the bundled SQLite driver loads a native library and DataStore's
-        // bundled protobuf uses sun.misc.Unsafe; both only print warnings, which these flags silence.
+        // JVM test host on recent JDKs: the bundled SQLite driver loads a native library and
+        // DataStore's bundled protobuf uses sun.misc.Unsafe; both only print warnings, which these
+        // flags silence. They are added only on the JDKs that know them, so older JDKs still start.
         tasks.withType<Test>().configureEach {
-            jvmArgs("--enable-native-access=ALL-UNNAMED", "--sun-misc-unsafe-memory-access=allow")
+            val testJdk = javaLauncher.map { it.metadata.languageVersion.asInt() }
+            jvmArgumentProviders.add(
+                CommandLineArgumentProvider {
+                    val jdk = testJdk.getOrElse(Runtime.version().feature())
+                    buildList {
+                        if (jdk >= 22) add("--enable-native-access=ALL-UNNAMED")
+                        if (jdk >= 23) add("--sun-misc-unsafe-memory-access=allow")
+                    }
+                },
+            )
         }
     }
 }

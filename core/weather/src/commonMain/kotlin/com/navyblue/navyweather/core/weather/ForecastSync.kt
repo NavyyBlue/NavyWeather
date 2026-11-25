@@ -1,7 +1,6 @@
 package com.navyblue.navyweather.core.weather
 
 import com.navyblue.navyweather.core.common.result.AppResult
-import com.navyblue.navyweather.core.common.result.map
 import com.navyblue.navyweather.core.database.dao.ForecastDao
 import com.navyblue.navyweather.core.database.entity.CurrentWeatherEntity
 import com.navyblue.navyweather.core.database.entity.DailyForecastEntity
@@ -22,13 +21,18 @@ class ForecastSync(
     private val clock: Clock,
 ) {
 
-    suspend fun sync(cityId: Long, latitude: Double, longitude: Double): AppResult<Unit> =
-        safeApiCall { api.forecast(latitude, longitude) }.map { response ->
-            dao.replaceForecast(
-                current = response.toCurrentEntity(cityId, clock.now().toEpochMilliseconds()),
-                daily = response.toDailyEntities(cityId),
-            )
-        }
+    /**
+     * Downloads and stores the forecast of a place. Every failure, including a failed write to
+     * the cache, comes back as an [AppResult.Failure]; the cache is only written after a
+     * complete, parsed response.
+     */
+    suspend fun sync(cityId: Long, latitude: Double, longitude: Double): AppResult<Unit> = safeApiCall {
+        val response = api.forecast(latitude, longitude)
+        dao.replaceForecast(
+            current = response.toCurrentEntity(cityId, clock.now().toEpochMilliseconds()),
+            daily = response.toDailyEntities(cityId),
+        )
+    }
 
     suspend fun lastSyncedAtEpochMillis(cityId: Long): Long? =
         dao.observeCurrent(cityId).first()?.fetchedAtEpochMillis
