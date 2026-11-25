@@ -1,2 +1,30 @@
+# Gradle / Kotlin
+.gradle/
+.kotlin/
+build/
+**/build/
+local.properties
+
+# IDE
+.idea/
+*.iml
 .DS_Store
+
+# Android
+.externalNativeBuild/
+.cxx/
+captures/
+
+# Xcode
+DerivedData/
+*.xcuserstate
+xcuserdata/
+iosApp/build/
+
+# Secrets
+.env
+.env.*
+*credentials*.json
+
+# Claude Code (personal settings)
 .claude/settings.local.json
