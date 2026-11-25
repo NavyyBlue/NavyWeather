@@ -1,6 +1,6 @@
 # Phase 1 — Build foundation
 
-**OpenSpec change:** `phase-1-build-foundation`
+**OpenSpec change:** [`phase-1-build-foundation`](../../openspec/changes/archive/2026-11-25-phase-1-build-foundation/) (archived; requirements now in [`openspec/specs/`](../../openspec/specs/))
 **Capabilities:** `build-system`, `presentation-architecture`, `error-handling`
 **ADRs:** [0002](../adr/0002-clean-architecture-layers-as-packages.md), [0003](../adr/0003-in-house-mvi-contract.md), [0004](../adr/0004-convention-plugins-in-build-logic.md), [0005](../adr/0005-jvm-target-as-test-host.md), [0006](../adr/0006-material-3-expressive-pre-release.md), [0007](../adr/0007-gradle-daemon-on-jdk-25.md)
 
@@ -38,8 +38,8 @@ Each one has its ADR with the alternatives considered.
 
 | Test | Verifies |
 |---|---|
-| `AppResultTest` | Mapping a success transforms it; mapping a failure leaves it unchanged |
-| `MviViewModelTest` | State is available immediately; reducer is deterministic; side effects run after the state update; effects are delivered once and in order |
+| `AppResultTest` | Mapping a success transforms it; mapping a failure leaves it unchanged without calling the mapper; a server error keeps its status code |
+| `MviViewModelTest` | State is available immediately; background results come back as intents; reducer is deterministic; side effects run after the state update; effects are delivered once and in order |
 | `RoutesTest` | `ForecastRoute` keeps all its arguments through serialization |
 
 ## Prerequisites
@@ -65,7 +65,7 @@ Compile the core modules for Android, iOS devices and the iOS simulator:
 ./gradlew compileAndroidMain compileKotlinIosArm64 compileKotlinIosSimulatorArm64
 ```
 
-Validate the OpenSpec change:
+Validate the main specs:
 ```bash
-openspec validate --changes --strict
+openspec validate --specs --strict
 ```

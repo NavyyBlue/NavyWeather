@@ -48,4 +48,4 @@ operations:
       - Run allTests (JVM + iOS simulator) and build both apps before marking tasks done.
   archive:
     guidance:
-      - Archive only after the change is verified on both platforms and merged.
+      - Archive in the phase pull request, after /opsx:verify and tests on both platforms, so main receives the specs together with the code.

@@ -26,12 +26,12 @@ The decisions with lasting architectural impact are recorded as ADRs, written in
 
 | ADR | Decision |
 |---|---|
-| [0002](../../../docs/adr/0002-clean-architecture-layers-as-packages.md) | Clean Architecture layers as packages inside each feature, not per-layer submodules |
-| [0003](../../../docs/adr/0003-in-house-mvi-contract.md) | MVI through an in-house contract on the multiplatform androidx `ViewModel` |
-| [0004](../../../docs/adr/0004-convention-plugins-in-build-logic.md) | Convention plugins by module role in an included `build-logic` build |
-| [0005](../../../docs/adr/0005-jvm-target-as-test-host.md) | A `jvm()` target used only as the shared test host |
-| [0006](../../../docs/adr/0006-material-3-expressive-pre-release.md) | Material 3 Expressive pre-release pinned in the catalog |
-| [0007](../../../docs/adr/0007-gradle-daemon-on-jdk-25.md) | Gradle daemon pinned to JDK 25 without auto-download |
+| [0002](../../../../docs/adr/0002-clean-architecture-layers-as-packages.md) | Clean Architecture layers as packages inside each feature, not per-layer submodules |
+| [0003](../../../../docs/adr/0003-in-house-mvi-contract.md) | MVI through an in-house contract on the multiplatform androidx `ViewModel` |
+| [0004](../../../../docs/adr/0004-convention-plugins-in-build-logic.md) | Convention plugins by module role in an included `build-logic` build |
+| [0005](../../../../docs/adr/0005-jvm-target-as-test-host.md) | A `jvm()` target used only as the shared test host |
+| [0006](../../../../docs/adr/0006-material-3-expressive-pre-release.md) | Material 3 Expressive pre-release pinned in the catalog |
+| [0007](../../../../docs/adr/0007-gradle-daemon-on-jdk-25.md) | Gradle daemon pinned to JDK 25 without auto-download |
 
 ### Implementation notes for these decisions
 - Convention plugins: `navyweather.kmp.library` (targets, namespace, coroutines, tests), `navyweather.kmp.compose` (Compose, Material 3, Compose Resources), `navyweather.kmp.feature` (core modules, Koin, navigation, serialization, Mokkery and UI test dependencies) and `navyweather.room` (KSP + Room for every target). The Android namespace is derived from the Gradle path (`:core:mvi` → `com.navyblue.navyweather.core.mvi`).
