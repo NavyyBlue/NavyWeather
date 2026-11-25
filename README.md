@@ -50,13 +50,16 @@ The project is **spec-driven**, using [OpenSpec](https://github.com/Fission-AI/O
 1. Each phase starts as an **OpenSpec change** (`openspec/changes/`): proposal, spec deltas with `GIVEN / WHEN / THEN` scenarios, design and tasks.
 2. The change is implemented in its own **pull request**, with tests running on the JVM and the iOS simulator.
 3. Once verified, the change is archived and its requirements become part of the living specs in `openspec/specs/`.
-4. Each phase is documented in `docs/phases/`.
+4. Architectural decisions are recorded as **ADRs** in [`docs/adr/`](docs/adr/README.md), and each phase is documented in `docs/phases/`.
+
+The workflow itself is described in [Phase 0](docs/phases/phase-0-spec-tooling.md).
 
 ## Roadmap
 
 | Phase | Scope | Status |
 |---|---|---|
-| 1. Build foundation | Gradle setup, version catalog, convention plugins, base core modules, OpenSpec, architecture docs | Planned |
+| 0. [Spec tooling](docs/phases/phase-0-spec-tooling.md) | OpenSpec setup, AI agent commands, ADR process | Done |
+| 1. Build foundation | Gradle setup, version catalog, convention plugins, base core modules, architecture docs | Planned |
 | 2. Core infrastructure | Network, local database, preferences, shared weather data source, design system | Planned |
 | 3. Favorite places and app shell | Favorites feature end to end, Android and iOS apps, navigation and DI wiring | Planned |
 | 4. Search and forecast | City search and the offline-first weather forecast | Planned |

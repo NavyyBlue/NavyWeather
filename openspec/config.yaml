@@ -1,0 +1,51 @@
+schema: spec-driven
+
+context: |
+  Project: NavyWeather, a Kotlin Multiplatform weather app (Android + iOS) built as a technical
+  challenge on KMP architecture. Data comes from Open-Meteo (Forecast and Geocoding APIs, no API key).
+  Language: Kotlin. All source code, modules, packages, tests, comments, specs and documentation
+  must be in English. The UI is localized in English (default) and Spanish.
+  Architecture: Clean Architecture with feature modules (feature:search, feature:forecast,
+  feature:favorites) and shared core modules (common, mvi, network, database, datastore, weather,
+  designsystem, navigation, testing). Layers live as packages inside each feature
+  (domain, data, presentation, di) and their boundaries are enforced by architecture tests.
+  A feature module never depends on another feature module; features only share core modules and
+  the route contracts in core:navigation. :shared is the composition root (NavHost + Koin).
+  Presentation: MVI (immutable State, sealed Intent, pure Reducer, one-shot Effects) on top of the
+  multiplatform androidx ViewModel, through the in-house contract in core:mvi.
+  Domain modules must not depend on presentation, Ktor, Room, DataStore implementations or DTOs.
+  Data is offline-first: the Room cache is the single source of truth and the network only refreshes it.
+  UI: Compose Multiplatform with Material 3 Expressive; the color scheme is generated from one brand
+  seed (#1F3A93, Fidelity style). Strong primaryContainer fills are reserved for a screen's hero.
+  DI: Koin. Tests: kotlin.test, coroutines-test, Turbine, Mokkery, Ktor MockEngine, Compose UI tests,
+  running on the JVM host and the iOS simulator.
+  Decisions: architectural and technology decisions are recorded as ADRs in docs/adr (MADR-style,
+  numbered, immutable once accepted; a changed decision gets a new ADR that supersedes the old one).
+
+rules:
+  proposal:
+    - Keep scope explicit and list deliberate exclusions to avoid oversized changes.
+    - Identify every new or modified capability using kebab-case names.
+  specs:
+    - Describe observable behavior and testable contracts, not Kotlin classes or framework details.
+    - Use SHALL requirements and GIVEN/WHEN/THEN scenarios.
+    - Include error and offline behavior whenever the user can observe it.
+  design:
+    - Preserve the Clean Architecture dependency direction and the no feature-to-feature rule.
+    - Document DTO-to-domain boundaries and anything shared through core modules.
+    - Call out unresolved decisions instead of silently assuming them.
+    - Every new architectural or technology decision gets its own ADR in docs/adr, added in the same
+      change; design.md links the ADRs it creates or relies on instead of repeating them.
+  tasks:
+    - Use numbered headings and trackable '- [ ] X.Y' checkboxes.
+    - Order tasks by dependency and include tests on JVM and the iOS simulator.
+    - Include a task to write the ADRs the change introduces and to add them to docs/adr/README.md.
+
+operations:
+  apply:
+    guidance:
+      - Implement only the approved change scope; keep follow-ups in separate OpenSpec changes.
+      - Run allTests (JVM + iOS simulator) and build both apps before marking tasks done.
+  archive:
+    guidance:
+      - Archive only after the change is verified on both platforms and merged.
