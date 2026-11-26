@@ -41,7 +41,7 @@ fun NavyWeatherTheme(
     MaterialExpressiveTheme(
         colorScheme = colorScheme,
         motionScheme = MotionScheme.expressive(),
-        typography = NavyTypography,
+        typography = navyTypography(),
         shapes = NavyShapes,
         content = content,
     )

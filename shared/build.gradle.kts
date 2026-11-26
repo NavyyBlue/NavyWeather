@@ -26,6 +26,8 @@ kotlin {
             implementation(project(":core:weather"))
 
             implementation(project(":feature:favorites"))
+            implementation(project(":feature:search"))
+            implementation(project(":feature:forecast"))
 
             implementation(libs.androidx.navigation.compose)
             implementation(libs.kotlinx.serialization.json)

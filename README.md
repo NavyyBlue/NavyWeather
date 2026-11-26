@@ -78,7 +78,7 @@ Run the iOS app: open `iosApp/iosApp.xcodeproj` in Xcode, pick the `NavyWeather`
 | 1. [Build foundation](docs/phases/phase-1-build-foundation.md) | Gradle setup, version catalog, convention plugins, base core modules, architecture docs | Done |
 | 2. [Core infrastructure](docs/phases/phase-2-core-infrastructure.md) | Network, local database, preferences, shared weather data source, design system | Done |
 | 3. [Favorite places and app shell](docs/phases/phase-3-favorites-app-shell.md) | Favorites feature end to end, Android and iOS apps, navigation and DI wiring | Done |
-| 4. Search and forecast | City search and the offline-first weather forecast | Planned |
+| 4. [Search and forecast](docs/phases/phase-4-search-forecast.md) | City search and the offline-first weather forecast | Done |
 | 5. Quality and documentation | Architecture tests, final documentation and AI usage report | Planned |
 
 The requirements of the challenge (architecture, patterns, tech stack justification, AI usage and deliverables) are addressed across these phases and summarized in the documentation once complete.
