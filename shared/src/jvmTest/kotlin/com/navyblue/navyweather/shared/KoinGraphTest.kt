@@ -1,6 +1,7 @@
 package com.navyblue.navyweather.shared
 
 import androidx.lifecycle.SavedStateHandle
+import com.navyblue.navyweather.core.navigation.ForecastRoute
 import com.navyblue.navyweather.shared.di.appModules
 import io.ktor.client.engine.HttpClientEngine
 import org.koin.core.annotation.KoinExperimentalAPI
@@ -22,6 +23,8 @@ class KoinGraphTest {
             extraTypes = listOf(
                 HttpClientEngine::class,
                 SavedStateHandle::class,
+                // Passed at runtime with parametersOf(route) from the navigation entry.
+                ForecastRoute::class,
             ),
         )
     }

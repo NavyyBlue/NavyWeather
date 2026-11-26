@@ -1,0 +1,33 @@
+<resources>
+    <string name="forecast_back">Back</string>
+    <string name="forecast_add_favorite">Add to favorites</string>
+    <string name="forecast_remove_favorite">Remove from favorites</string>
+    <string name="forecast_feels_like">Feels like</string>
+    <string name="forecast_max_min">High %1$s · Low %2$s</string>
+    <string name="forecast_humidity">Humidity</string>
+    <string name="forecast_wind">Wind</string>
+    <string name="forecast_wind_value">%1$d km/h</string>
+    <string name="forecast_updated_at">Updated %1$s</string>
+    <string name="forecast_next_days">Next 7 days</string>
+    <string name="forecast_today">Today</string>
+    <string name="forecast_celsius">Celsius</string>
+    <string name="forecast_fahrenheit">Fahrenheit</string>
+    <string name="day_mon">Mon</string>
+    <string name="day_tue">Tue</string>
+    <string name="day_wed">Wed</string>
+    <string name="day_thu">Thu</string>
+    <string name="day_fri">Fri</string>
+    <string name="day_sat">Sat</string>
+    <string name="day_sun">Sun</string>
+    <string name="condition_clear">Clear sky</string>
+    <string name="condition_mainly_clear">Mostly clear</string>
+    <string name="condition_partly_cloudy">Partly cloudy</string>
+    <string name="condition_overcast">Overcast</string>
+    <string name="condition_fog">Fog</string>
+    <string name="condition_drizzle">Drizzle</string>
+    <string name="condition_rain">Rain</string>
+    <string name="condition_snow">Snow</string>
+    <string name="condition_showers">Showers</string>
+    <string name="condition_thunderstorm">Thunderstorm</string>
+    <string name="condition_unknown">Unknown conditions</string>
+</resources>

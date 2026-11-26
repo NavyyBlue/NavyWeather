@@ -1,6 +1,0 @@
-<resources>
-    <string name="navigate_back">Back</string>
-    <string name="placeholder_search_title">Search</string>
-    <string name="placeholder_title">Coming soon</string>
-    <string name="placeholder_message">This screen is available in a later version of the app.</string>
-</resources>

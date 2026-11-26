@@ -1,0 +1,33 @@
+<resources>
+    <string name="forecast_back">Atrás</string>
+    <string name="forecast_add_favorite">Agregar a favoritos</string>
+    <string name="forecast_remove_favorite">Quitar de favoritos</string>
+    <string name="forecast_feels_like">Sensación</string>
+    <string name="forecast_max_min">Máx. %1$s · Mín. %2$s</string>
+    <string name="forecast_humidity">Humedad</string>
+    <string name="forecast_wind">Viento</string>
+    <string name="forecast_wind_value">%1$d km/h</string>
+    <string name="forecast_updated_at">Actualizado %1$s</string>
+    <string name="forecast_next_days">Próximos 7 días</string>
+    <string name="forecast_today">Hoy</string>
+    <string name="forecast_celsius">Celsius</string>
+    <string name="forecast_fahrenheit">Fahrenheit</string>
+    <string name="day_mon">Lun</string>
+    <string name="day_tue">Mar</string>
+    <string name="day_wed">Mié</string>
+    <string name="day_thu">Jue</string>
+    <string name="day_fri">Vie</string>
+    <string name="day_sat">Sáb</string>
+    <string name="day_sun">Dom</string>
+    <string name="condition_clear">Despejado</string>
+    <string name="condition_mainly_clear">Mayormente despejado</string>
+    <string name="condition_partly_cloudy">Parcialmente nublado</string>
+    <string name="condition_overcast">Nublado</string>
+    <string name="condition_fog">Niebla</string>
+    <string name="condition_drizzle">Llovizna</string>
+    <string name="condition_rain">Lluvia</string>
+    <string name="condition_snow">Nieve</string>
+    <string name="condition_showers">Chubascos</string>
+    <string name="condition_thunderstorm">Tormenta</string>
+    <string name="condition_unknown">Condiciones desconocidas</string>
+</resources>

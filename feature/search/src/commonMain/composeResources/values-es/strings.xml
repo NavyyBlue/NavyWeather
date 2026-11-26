@@ -1,0 +1,9 @@
+<resources>
+    <string name="search_placeholder">Buscar ciudad</string>
+    <string name="search_back">Atrás</string>
+    <string name="search_clear">Borrar búsqueda</string>
+    <string name="search_hint_title">Encuentra una ciudad</string>
+    <string name="search_hint_message">Escribe al menos dos letras del nombre de una ciudad.</string>
+    <string name="search_no_results_title">No encontramos ciudades</string>
+    <string name="search_no_results_message">Nada coincide con “%1$s”. Revisa la ortografía o prueba con una ciudad cercana.</string>
+</resources>

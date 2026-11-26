@@ -19,6 +19,7 @@ Every library is pinned to an exact version in [`gradle/libs.versions.toml`](../
 | kotlinx-coroutines | Concurrency in every layer | The Kotlin standard, and the base of Ktor, Room, Flow and MVI. |
 | kotlinx-datetime | Forecast dates and times | `java.time` does not exist on iOS. |
 | Kermit | Logging | Logcat on Android and OSLog on iOS behind one API. |
+| Google Sans Flex | Typeface for every text role | One variable font (SIL OFL 1.1) bundled in `core:designsystem`, so Android and iOS look the same; the typeface Material 3 Expressive is designed with. See [ADR-0018](adr/0018-google-sans-flex-typeface.md). |
 
 ## Why a pre-release for Material 3
 

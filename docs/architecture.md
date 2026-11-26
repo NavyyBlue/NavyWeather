@@ -26,8 +26,8 @@ NavyWeather/
 │
 └── feature/
     ├── favorites/
-    ├── search/                                                                (Phase 4)
-    └── forecast/                                                              (Phase 4)
+    ├── search/
+    └── forecast/
 ```
 
 ```mermaid
@@ -202,7 +202,7 @@ Routes are `@Serializable` types in `core:navigation`: `FavoritesRoute`, `Search
 Navigation is owned by `shared` ([ADR-0014](adr/0014-navigation-owned-by-the-composition-root.md)):
 
 - Each feature exposes one `NavGraphBuilder` extension, for example `favoritesScreen(onNavigateToForecast, onNavigateToSearch)`. Its ViewModel emits navigation as an effect; the destination calls the callback; the feature never sees a `NavController`.
-- `shared` builds the `NavHost`, connects callbacks to routes and defines back-stack rules. Until a feature exists, `shared` registers a placeholder destination for its route.
+- `shared` builds the `NavHost`, connects callbacks to routes and defines back-stack rules: a forecast opened from search replaces search, so Back returns to favorites. (While a feature did not exist yet, `shared` registered a placeholder for its route; the last ones were removed in Phase 4.)
 - `shared` also assembles every Koin module (`appModules()`), provides app-wide primitives (`Clock`, `LanguageProvider`) and is the iOS framework.
 
 ```

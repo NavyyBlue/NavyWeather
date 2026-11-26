@@ -32,6 +32,8 @@ include(":core:designsystem")
 
 // Features
 include(":feature:favorites")
+include(":feature:search")
+include(":feature:forecast")
 include(":shared")
 
 // Apps

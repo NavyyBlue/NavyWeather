@@ -1,0 +1,9 @@
+<resources>
+    <string name="search_placeholder">Search city</string>
+    <string name="search_back">Back</string>
+    <string name="search_clear">Clear search</string>
+    <string name="search_hint_title">Find a city</string>
+    <string name="search_hint_message">Type at least two letters of a city name.</string>
+    <string name="search_no_results_title">No cities found</string>
+    <string name="search_no_results_message">Nothing matches “%1$s”. Check the spelling or try a nearby city.</string>
+</resources>

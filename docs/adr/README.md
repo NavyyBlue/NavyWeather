@@ -35,3 +35,6 @@ An ADR records one architectural or technology decision: the context, what was d
 | [0013](0013-brand-color-scheme-from-one-seed.md) | Color scheme generated from one brand seed | Accepted | 2 |
 | [0014](0014-navigation-owned-by-the-composition-root.md) | Navigation owned by the composition root | Accepted | 3 |
 | [0015](0015-ios-static-framework-built-from-xcode.md) | iOS static framework built from Xcode | Accepted | 3 |
+| [0016](0016-search-as-you-type.md) | Search as you type, debounced in the ViewModel | Accepted | 4 |
+| [0017](0017-adaptive-forecast-layout.md) | Forecast layout adapts to the available width | Accepted | 4 |
+| [0018](0018-google-sans-flex-typeface.md) | Google Sans Flex as the app typeface | Accepted | 4 |
