@@ -33,3 +33,5 @@ An ADR records one architectural or technology decision: the context, what was d
 | [0011](0011-koin-for-dependency-injection.md) | Koin for dependency injection | Accepted | 2 |
 | [0012](0012-offline-first-single-source-of-truth.md) | Offline-first with the local database as the single source of truth | Accepted | 2 |
 | [0013](0013-brand-color-scheme-from-one-seed.md) | Color scheme generated from one brand seed | Accepted | 2 |
+| [0014](0014-navigation-owned-by-the-composition-root.md) | Navigation owned by the composition root | Accepted | 3 |
+| [0015](0015-ios-static-framework-built-from-xcode.md) | iOS static framework built from Xcode | Accepted | 3 |

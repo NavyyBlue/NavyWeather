@@ -1,0 +1,7 @@
+<resources>
+    <!-- Window background shown before Compose draws: the generated `surface` role
+         (Fidelity scheme from #1F3A93), so there is no color jump at launch. -->
+    <color name="window_background">#FFFBF8FF</color>
+    <!-- Launcher icon background: the brand seed (also `primaryContainer`). -->
+    <color name="ic_launcher_background">#FF1F3A93</color>
+</resources>

@@ -1,0 +1,6 @@
+<resources>
+    <!-- Window-level theme only (background before Compose draws). The UI theme lives in core:designsystem. -->
+    <style name="Theme.NavyWeather" parent="android:Theme.Material.Light.NoActionBar">
+        <item name="android:windowBackground">@color/window_background</item>
+    </style>
+</resources>
